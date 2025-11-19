@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
-import '../data/dummy_data.dart';
+import '../services/pet_service.dart';
 import '../models/pet.dart';
 import 'notification_page.dart';
 import 'analytics_dashboard_page.dart';
 import 'activity_monitoring_page.dart';
 import 'health_tracking_page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  final PetService petService;
+  const HomePage({Key? key, required this.petService}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    widget.petService.addListener(_onPetsChanged);
+  }
+
+  @override
+  void dispose() {
+    widget.petService.removeListener(_onPetsChanged);
+    super.dispose();
+  }
+
+  void _onPetsChanged() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final pets = widget.petService.pets;
+    final selectedPet = pets.isNotEmpty ? widget.petService.selectedPet : null;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('RaptorC',
@@ -38,67 +63,173 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          _buildMainStatusCard(context, dummyPets.first),
-          const SizedBox(height: 24),
-          Text('Dasbor Cepat',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 16),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Simulate refresh
+          await Future.delayed(const Duration(seconds: 1));
+        },
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: [
+            if (selectedPet != null) ...[
+              _buildMainStatusCard(context, selectedPet),
+              const SizedBox(height: 24),
+            ],
+            Text('Dasbor Cepat',
+                style: theme.textTheme.headlineSmall
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              children: [
+                _buildDashboardCard(context, 'Pagar Virtual', Icons.shield_outlined,
+                    'Aktif', theme.primaryColor, null),
+                _buildDashboardCard(
+                    context,
+                    selectedPet != null 
+                      ? 'Baterai ${selectedPet.name}'
+                      : 'Baterai',
+                    Icons.battery_charging_full,
+                    selectedPet != null
+                        ? '${(selectedPet.batteryLevel * 100).toInt()}%'
+                        : 'N/A',
+                    Colors.green,
+                    null),
+                _buildDashboardCard(context, 'Riwayat Lokasi', Icons.history,
+                    'Lihat Semua', Colors.orange, () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ActivityMonitoringPage()));
+                }),
+                _buildDashboardCard(context, 'Aktivitas Hari Ini', Icons.trending_up,
+                    'Normal', Colors.purpleAccent, () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ActivityMonitoringPage()));
+                }),
+              ],
+            ),
+            const SizedBox(height: 24),
+            
+            // Health Summary Card
+            _buildHealthSummaryCard(context),
+            const SizedBox(height: 24),
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Peliharaan Saya',
+                    style: theme.textTheme.headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+                if (pets.length > 1)
+                  TextButton(
+                    onPressed: () {
+                      _showPetSelector(context);
+                    },
+                    child: const Text('Lihat Semua'),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            pets.isEmpty
+                ? _buildEmptyPetsCard(context)
+                : SizedBox(
+                    height: 120,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: pets.length,
+                      itemBuilder: (context, index) {
+                        final pet = pets[index];
+                        final isSelected = widget.petService.selectedPetIndex == index;
+                        return GestureDetector(
+                          onTap: () {
+                            widget.petService.selectPet(index);
+                          },
+                          child: _buildPetAvatar(pet, isSelected),
+                        );
+                      },
+                    ),
+                  ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPetSelector(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _buildDashboardCard(context, 'Pagar Virtual', Icons.shield_outlined,
-                  'Aktif', theme.primaryColor, null),
-              _buildDashboardCard(
-                  context,
-                  'Baterai Milo',
-                  Icons.battery_charging_full,
-                  '${(dummyPets.first.batteryLevel * 100).toInt()}%',
-                  Colors.green,
-                  null),
-              _buildDashboardCard(context, 'Riwayat Lokasi', Icons.history,
-                  'Lihat Semua', Colors.orange, () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ActivityMonitoringPage()));
-              }),
-              _buildDashboardCard(context, 'Aktivitas Hari Ini', Icons.trending_up,
-                  'Normal', Colors.purpleAccent, () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ActivityMonitoringPage()));
+              Text(
+                'Pilih Peliharaan',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ...widget.petService.pets.asMap().entries.map((entry) {
+                final index = entry.key;
+                final pet = entry.value;
+                final isSelected = widget.petService.selectedPetIndex == index;
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(pet.imageUrl),
+                  ),
+                  title: Text(pet.name),
+                  subtitle: Text(pet.breed),
+                  trailing: isSelected
+                      ? Icon(Icons.check_circle, color: Theme.of(context).primaryColor)
+                      : null,
+                  onTap: () {
+                    widget.petService.selectPet(index);
+                    Navigator.pop(context);
+                  },
+                );
               }),
             ],
           ),
-          const SizedBox(height: 24),
-          
-          // Health Summary Card
-          _buildHealthSummaryCard(context),
-          const SizedBox(height: 24),
-          
-          Text('Peliharaan Saya',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: dummyPets.length,
-              itemBuilder: (context, index) =>
-                  _buildPetAvatar(dummyPets[index]),
+        );
+      },
+    );
+  }
+
+  Widget _buildEmptyPetsCard(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          children: [
+            Icon(Icons.pets, size: 64, color: Colors.grey.shade400),
+            const SizedBox(height: 16),
+            Text(
+              'Belum ada peliharaan',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade600,
+              ),
             ),
-          )
-        ],
+            const SizedBox(height: 8),
+            Text(
+              'Tambahkan peliharaan pertama Anda',
+              style: TextStyle(
+                color: Colors.grey.shade500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -277,15 +408,36 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildPetAvatar(Pet pet) {
+  Widget _buildPetAvatar(Pet pet, bool isSelected) {
     return Padding(
       padding: const EdgeInsets.only(right: 16.0),
       child: Column(
         children: [
-          CircleAvatar(
-              radius: 35, backgroundImage: NetworkImage(pet.imageUrl)),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isSelected
+                    ? Theme.of(context).primaryColor
+                    : Colors.transparent,
+                width: 3,
+              ),
+            ),
+            child: CircleAvatar(
+              radius: 35,
+              backgroundImage: NetworkImage(pet.imageUrl),
+            ),
+          ),
           const SizedBox(height: 8),
-          Text(pet.name),
+          Text(
+            pet.name,
+            style: TextStyle(
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              color: isSelected
+                  ? Theme.of(context).primaryColor
+                  : null,
+            ),
+          ),
         ],
       ),
     );

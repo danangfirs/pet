@@ -3,9 +3,13 @@ import 'home_page.dart';
 import 'pets_page.dart';
 import 'map_page.dart';
 import 'settings_page.dart';
+import '../services/theme_service.dart';
+import '../services/pet_service.dart';
+import '../services/profile_service.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final ThemeService themeService;
+  const MainScreen({Key? key, required this.themeService}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -13,13 +17,25 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  late final PetService _petService;
+  late final ProfileService _profileService;
+  late List<Widget> _pages;
 
-  static const List<Widget> _pages = <Widget>[
-    HomePage(),
-    PetsPage(),
-    MapPage(),
-    SettingsPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _petService = PetService();
+    _profileService = ProfileService();
+    _pages = [
+      HomePage(petService: _petService),
+      PetsPage(petService: _petService),
+      MapPage(petService: _petService),
+      SettingsPage(
+        themeService: widget.themeService,
+        profileService: _profileService,
+      ),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -29,6 +45,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
@@ -36,9 +53,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF1E1E1E),
-        selectedItemColor: const Color(0xFF00F5D4),
-        unselectedItemColor: const Color(0xFF757575),
+        backgroundColor: theme.cardColor,
+        selectedItemColor: theme.primaryColor,
+        unselectedItemColor: theme.textTheme.bodyMedium?.color,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[

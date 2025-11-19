@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart';
+import '../services/theme_service.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final ThemeService themeService;
+  const LoginPage({Key? key, required this.themeService}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class LoginPage extends StatelessWidget {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MainScreen()));
+                            builder: (context) => MainScreen(themeService: themeService)));
                   },
                   child: const Text('Masuk',
                       style: TextStyle(
