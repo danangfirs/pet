@@ -281,3 +281,21 @@ monitoring/
 # Example:
 # /custom_folder/
 # my_secret_file.txt
+
+# ===================================
+# Server (Node.js) Specific
+# ===================================
+server/node_modules/
+server/data.json
+server/tracker.db
+server/*.db
+server/pnpm-lock.yaml
+server/.env
+
+# ===================================
+# Hardware (ESP32) Specific
+# ===================================
+hardware/build/
+hardware/*.bin
+hardware/credentials.h
+hardware/secrets.h

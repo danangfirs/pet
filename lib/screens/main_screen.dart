@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'pets_page.dart';
-import 'map_page.dart';
+import 'gps_map_page.dart';
 import 'settings_page.dart';
 import '../services/theme_service.dart';
 import '../services/pet_service.dart';
@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     _pages = [
       HomePage(petService: _petService),
       PetsPage(petService: _petService),
-      MapPage(petService: _petService),
+      GpsMapPage(petService: _petService),
       SettingsPage(
         themeService: widget.themeService,
         profileService: _profileService,
