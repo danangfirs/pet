@@ -1,4 +1,4 @@
-# 🐾 GPS Pet Tracker App
+#  GPS Pet Tracker App
 
 Aplikasi pelacakan GPS real-time untuk hewan peliharaan menggunakan **ESP32**, **Node.js**, dan **Flutter**.
 
