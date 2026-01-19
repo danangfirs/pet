@@ -1,0 +1,43 @@
+# ===================================
+# ESP32/Arduino Hardware .gitignore
+# ===================================
+
+# Build output
+build/
+*.bin
+*.elf
+*.hex
+
+# Arduino build artifacts
+*.d
+*.o
+**/core/
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# ESP-IDF
+sdkconfig
+sdkconfig.old
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Credentials file (buat file terpisah jika menyimpan credentials)
+credentials.h
+secrets.h
+wifi_config.h

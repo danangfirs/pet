@@ -1,0 +1,301 @@
+# ===================================
+# Flutter/Dart Project .gitignore
+# ===================================
+
+# Miscellaneous
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+*.swo
+*~
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+generated_plugin_registrant.dart
+
+# IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/misc.xml
+.idea/**/modules.xml
+.idea_modules/
+*.iml
+modules.xml
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules
+.idea/*.iml
+.idea/replstate.xml
+
+# Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+*.hprof
+local.properties
+captures/
+.navigation/
+output.json 
+
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+pubspec.lock
+
+# Flutter DevTools
+.devtools/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android related
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+*.jks
+*.keystore
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+android/app/google-services.json
+
+# iOS/XCode related
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*sync/
+**/ios/**/.sconsign.dblite
+**/ios/**/.tags*
+**/ios/**/.vagrant/
+**/ios/**/DerivedData/
+**/ios/**/Icon?
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/profile
+**/ios/**/xcuserdata
+**/ios/.generated/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Podfile.lock
+
+# macOS
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/macos/Flutter/Flutter-Debug.xcconfig
+**/macos/Flutter/Flutter-Release.xcconfig
+**/macos/Flutter/ephemeral/
+**/macos/Pods/
+**/macos/Podfile.lock
+**/macos/.symlinks/
+**/macos/xcuserdata/
+
+# Web related
+**/web/*.js_
+**/web/*.js.deps
+**/web/*.js.map
+.flutter-devtools
+
+# Windows
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+
+# Linux
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+
+# Coverage
+coverage/
+*.lcov
+
+# Exceptions to above rules.
+!**/ios/**/default.mode1v3
+!**/ios/**/default.mode2v3
+!**/ios/**/default.pbxuser
+!**/ios/**/default.perspectivev3
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+!/dev/ci/**/Gemfile.lock
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# API Keys (if stored separately)
+**/lib/config/api_keys.dart
+**/lib/config/secrets.dart
+
+# Firebase
+**/google-services.json
+**/GoogleService-Info.plist
+firebase_app_id_file.json
+.firebase/
+.firebaserc
+
+# Testing
+test/.test_coverage.dart
+test_driver/*.dart_tool/
+
+# Documentation
+doc/api/
+docs/api/
+
+# Build artifacts
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.a
+*.lib
+*.exp
+*.pdb
+*.ilk
+
+# Crashlytics
+**/ios/**/GoogleService-Info.plist
+**/android/app/google-services.json
+
+# FVM (Flutter Version Management)
+.fvm/flutter_sdk
+.fvm/fvm_config.json
+
+# Mason (Code generation tool)
+.mason/
+
+# Melos (Monorepo management)
+.melos_tool/
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.config.dart
+*.gr.dart
+
+# Large files / Assets (uncomment if needed)
+# assets/videos/
+# assets/large_files/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Backup files
+*.backup
+*-backup
+*.old
+
+# Analytics & Monitoring (if any local logs)
+analytics/
+monitoring/
+
+# Custom Project Specific
+# Add your project-specific ignores here
+# Example:
+# /custom_folder/
+# my_secret_file.txt
+
+# ===================================
+# Server (Node.js) Specific
+# ===================================
+server/node_modules/
+server/data.json
+server/tracker.db
+server/*.db
+server/pnpm-lock.yaml
+server/.env
+
+# ===================================
+# Hardware (ESP32) Specific
+# ===================================
+hardware/build/
+hardware/*.bin
+hardware/credentials.h
+hardware/secrets.h
